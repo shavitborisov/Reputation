@@ -10,15 +10,20 @@ def return_8_bit(number):
         return binary_number[0:2] + ('0' * (10 - len(binary_number))) + binary_number[2:]
     return binary_number
 
-string_to_insert = "matan kotick\n"
+string_to_insert = "matankoo"
+major = 20
 
 def get_string_current_bit(string_to_code):
     while True:
         for character in string_to_code:
             for bit in return_8_bit(ord(character))[2:]:
-                yield bit
+                for i in range(major):
+                    yield bit
 
-MY_OFFSET = 600
+
+def index_generator(image_length):
+    return set([300*i for i in range(64*1*major)])
+
 
 def write_on_msb(number, bit):
     binary_number = return_8_bit(number)
@@ -31,9 +36,11 @@ def creator (source, string_to_encode):
     im = Image.open(source)
     newimdata = []
     current_char_index = 0
+
     message_generator = get_string_current_bit(string_to_encode)
+    index_gen = index_generator(len(im.getdata()))
     for index, color in enumerate(im.getdata()):
-        if index % MY_OFFSET != 0:
+        if index not in index_gen:
             newimdata.append( color )
             continue    
         
@@ -42,6 +49,7 @@ def creator (source, string_to_encode):
         new_color = (write_on_msb(color[0], current_bit),
                     write_on_msb(color[1], current_bit),
                     write_on_msb(color[2], current_bit))
+        #new_color = (write_on_msb(color[0], current_bit), color[1], color[2])
 
         current_char_index += 1
         current_char_index %= len(string_to_insert)
@@ -59,38 +67,47 @@ def investigator(source):
     all_messages = []
 
     im = Image.open(source)
-    current_character = ""
+    bit_collector = ""
     current_string = ""
+    current_character = ""
     
     message = get_string_current_bit(string_to_insert)
     errors = 0
     number = 0
+
+    index_gen = index_generator(len(im.getdata()))
     for index, color in enumerate(im.getdata()):
-        if index % MY_OFFSET != 0:
+        if index not in index_gen:
             continue
+
         number += 1
         
         current_bit_str = return_8_bit(color[0])[2] + return_8_bit(color[1])[2] + return_8_bit(color[2])[2]
         current_bit = collections.Counter(current_bit_str).most_common(1)[0][0]
-
+        bit_collector += current_bit
+        
         if current_bit != next(message):
             errors += 1
-        current_character += current_bit
 
-        if len(current_character) == 8:
-            current_character_chr = chr(int(current_character, 2))
-            current_string += current_character_chr
+        if len(bit_collector) == major:
+            real_bit = collections.Counter(bit_collector).most_common(1)[0][0]
+            current_character += real_bit
 
-            if current_character_chr == '\n':
-                all_messages += [current_string]
-                current_string = ""
+            if len(current_character) == 8:
+                current_character_chr = chr(int(current_character, 2))
+                current_string += current_character_chr
 
-            current_character = ""
+                if len(current_string) == 8:
+                    all_messages.append(current_string)
+                    current_string = ""
+
+                current_character = ""
+            bit_collector = ""
     
     print (str(errors) + "/" + str(number))
     print (str(float(errors) * (100.0 / number)))
 
-    return most_common(all_messages)
+    return all_messages[0]
 
 creator(imagePath, string_to_insert).save(newImagePath)
 print (investigator(newImagePath))
