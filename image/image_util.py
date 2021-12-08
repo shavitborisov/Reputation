@@ -11,7 +11,8 @@ def return_8_bit(number):
     return binary_number
 
 string_to_insert = "matankoo"
-major = 20
+major = 10
+bit_location = 2
 
 def get_string_current_bit(string_to_code):
     while True:
@@ -22,13 +23,13 @@ def get_string_current_bit(string_to_code):
 
 
 def index_generator(image_length):
-    return set([300*i for i in range(64*1*major)])
+    return set([200*i for i in range(64*1*major)])
 
 
 def write_on_msb(number, bit):
     binary_number = return_8_bit(number)
     new_binary_number = list(binary_number)
-    new_binary_number[2] = bit
+    new_binary_number[bit_location] = bit
 
     return int(''.join(new_binary_number), 2)
 
@@ -47,8 +48,8 @@ def creator (source, string_to_encode):
         #new_color = (ord(string_to_insert[current_char_index]), color[1], color[2])
         current_bit = next(message_generator)
         new_color = (write_on_msb(color[0], current_bit),
-                    write_on_msb(color[1], current_bit),
-                    write_on_msb(color[2], current_bit))
+                    write_on_msb(color[1], current_bit), color[2])
+                    #write_on_msb(color[2], current_bit))
         #new_color = (write_on_msb(color[0], current_bit), color[1], color[2])
 
         current_char_index += 1
@@ -82,7 +83,9 @@ def investigator(source):
 
         number += 1
         
-        current_bit_str = return_8_bit(color[0])[2] + return_8_bit(color[1])[2] + return_8_bit(color[2])[2]
+        current_bit_str = return_8_bit(color[0])[bit_location]# + \
+                        #return_8_bit(color[1])[bit_location] + \
+                        #return_8_bit(color[2])[bit_location]
         current_bit = collections.Counter(current_bit_str).most_common(1)[0][0]
         bit_collector += current_bit
         
