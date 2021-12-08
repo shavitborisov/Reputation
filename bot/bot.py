@@ -14,7 +14,7 @@ import glob
 import shutil
 
 DOWNLOAD_FOLDER_PATH = r'C:\Users\USER\Downloads'
-BOT_PATH = r"C:\Users\USER\Desktop\tmp_hack\Reputation\bot"
+BOT_PATH = r"C:\Users\USER\Desktop\tmp_hack\Reputation"
 
 
 WAIT_FOR_PHONE_CONNECTION = 10
@@ -72,6 +72,8 @@ class stream:
         send_pic = self.driver.find_elements(By.CLASS_NAME, "_1w1m1")[0]
         send_pic.click()
 
+        time.sleep(1)
+
     def read_pic_and_message(self, save_path):
         message = self.stream_read()
 
@@ -93,9 +95,9 @@ class stream:
 
         shutil.copyfile(max_file, save_path)
 
+        time.sleep(1)
+
         return message 
 
 if __name__ == '__main__':
-    s = stream()
-    s.send_pic("bla.jpg")
-   # print(s.read_pic_and_message("bla.jpg"))
+    pass
