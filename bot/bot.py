@@ -93,6 +93,8 @@ class stream:
         close_button = self.driver.find_elements(By.CLASS_NAME, "_2cNrC")[4]
         close_button.click()
 
+        time.sleep(0.3)
+
         files = glob.glob(DOWNLOAD_FOLDER_PATH + r"\*")
         max_file = max(files, key=os.path.getctime)
 

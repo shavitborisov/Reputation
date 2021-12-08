@@ -1,4 +1,5 @@
 from bot.bot import stream
+from image.image_util import creator
 import time
 
 def main():
@@ -8,9 +9,9 @@ def main():
 		message = bot.read_pic_and_message("bla.jpg")
 		time.sleep(0.4)
 
-		# Insert message to bla.jpg here and then send new pic
+		creator("bla.jpg", message).save("bla1.jpg")
 
-		bot.send_pic("bla.jpg")
+		bot.send_pic("bla1.jpg")
 		bot.stream_write("The name was successfully hidden")
 		bot.stream_write("Always at your service, Mr. TrackerInjector")
 
