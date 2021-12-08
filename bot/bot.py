@@ -33,6 +33,7 @@ class stream:
         element = self.driver.find_elements(By.CLASS_NAME, "_13NKt")[1] #TODO sometime smart
         element.send_keys(string_to_write)
         self.driver.find_element(By.CLASS_NAME,"_4sWnG").click()
+        time.sleep(0.2)
        
     def stream_read(self):
         previous_text = self.driver.find_elements(By.CLASS_NAME, "i0jNr")[-1]
@@ -77,7 +78,9 @@ class stream:
     def read_pic_and_message(self, save_path):
         message = self.stream_read()
 
-        img = self.driver.find_elements(By.CLASS_NAME, "_3IfUe")[-1]
+        time.sleep(0.4)
+
+        img = self.driver.find_elements(By.CLASS_NAME, "_1bJJV")[-1]
         img.click()
 
         time.sleep(0.3)
