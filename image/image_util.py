@@ -10,11 +10,12 @@ def return_8_bit(number):
         return binary_number[0:2] + ('0' * (10 - len(binary_number))) + binary_number[2:]
     return binary_number
 
-string_to_insert = "matankoo"
+string_to_insert = "My Name Is Matan"
 major = 10
 bit_location = 2
 
 def get_string_current_bit(string_to_code):
+    string_to_code = chr(len(string_to_code)) + string_to_code
     while True:
         for character in string_to_code:
             for bit in return_8_bit(ord(character))[2:]:
@@ -23,7 +24,13 @@ def get_string_current_bit(string_to_code):
 
 
 def index_generator(image_length):
-    return set([200*i for i in range(64*1*major)])
+    result = []
+    index_array = 0
+    while index_array < image_length:
+        if index_array % 600 == 0:
+            result += [index_array]
+        index_array += 1
+    return set(result)
 
 
 def write_on_msb(number, bit):
@@ -48,8 +55,8 @@ def creator (source, string_to_encode):
         #new_color = (ord(string_to_insert[current_char_index]), color[1], color[2])
         current_bit = next(message_generator)
         new_color = (write_on_msb(color[0], current_bit),
-                    write_on_msb(color[1], current_bit), color[2])
-                    #write_on_msb(color[2], current_bit))
+                    write_on_msb(color[1], current_bit),
+                    write_on_msb(color[2], current_bit))
         #new_color = (write_on_msb(color[0], current_bit), color[1], color[2])
 
         current_char_index += 1
@@ -75,7 +82,8 @@ def investigator(source):
     message = get_string_current_bit(string_to_insert)
     errors = 0
     number = 0
-
+    first_byte = True
+    message_length = 0
     index_gen = index_generator(len(im.getdata()))
     for index, color in enumerate(im.getdata()):
         if index not in index_gen:
@@ -83,9 +91,9 @@ def investigator(source):
 
         number += 1
         
-        current_bit_str = return_8_bit(color[0])[bit_location]# + \
-                        #return_8_bit(color[1])[bit_location] + \
-                        #return_8_bit(color[2])[bit_location]
+        current_bit_str = return_8_bit(color[0])[bit_location] + \
+                        return_8_bit(color[1])[bit_location] + \
+                        return_8_bit(color[2])[bit_location]
         current_bit = collections.Counter(current_bit_str).most_common(1)[0][0]
         bit_collector += current_bit
         
@@ -97,12 +105,17 @@ def investigator(source):
             current_character += real_bit
 
             if len(current_character) == 8:
-                current_character_chr = chr(int(current_character, 2))
-                current_string += current_character_chr
 
-                if len(current_string) == 8:
-                    all_messages.append(current_string)
-                    current_string = ""
+                current_character_chr = chr(int(current_character, 2))
+                if first_byte:
+                    message_length = ord(current_character_chr)
+                    first_byte = False
+                else:
+                    current_string += current_character_chr
+                    if len(current_string) == message_length:
+                        all_messages.append(current_string)
+                        current_string = ""
+                        first_byte = True
 
                 current_character = ""
             bit_collector = ""
