@@ -18,7 +18,7 @@ def get_string_current_bit(string_to_code):
             for bit in return_8_bit(ord(character))[2:]:
                 yield bit
 
-MY_OFFSET = 500
+MY_OFFSET = 600
 
 def write_on_msb(number, bit):
     binary_number = return_8_bit(number)
