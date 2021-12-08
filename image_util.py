@@ -10,15 +10,15 @@ def return_8_bit(number):
         return binary_number[0:2] + ('0' * (10 - len(binary_number))) + binary_number[2:]
     return binary_number
 
-string_to_insert = "matan kotick was here\n"
+string_to_insert = "matan kotick\n"
 
-def get_string_current_bit():
+def get_string_current_bit(string_to_code):
     while True:
-        for character in string_to_insert:
+        for character in string_to_code:
             for bit in return_8_bit(ord(character))[2:]:
                 yield bit
 
-MY_OFFSET = 1000
+MY_OFFSET = 500
 
 def write_on_msb(number, bit):
     binary_number = return_8_bit(number)
@@ -27,11 +27,11 @@ def write_on_msb(number, bit):
 
     return int(''.join(new_binary_number), 2)
 
-def creator (source):
+def creator (source, string_to_encode):
     im = Image.open(source)
     newimdata = []
     current_char_index = 0
-    message_generator = get_string_current_bit()
+    message_generator = get_string_current_bit(string_to_encode)
     for index, color in enumerate(im.getdata()):
         if index % MY_OFFSET != 0:
             newimdata.append( color )
@@ -51,12 +51,18 @@ def creator (source):
     newim.putdata(newimdata)
     return newim
 
+def most_common(lst):
+    return max(set(lst), key=lst.count)
+
 def investigator(source):
+
+    all_messages = []
+
     im = Image.open(source)
     current_character = ""
     current_string = ""
     
-    message = get_string_current_bit()
+    message = get_string_current_bit(string_to_insert)
     errors = 0
     number = 0
     for index, color in enumerate(im.getdata()):
@@ -76,12 +82,15 @@ def investigator(source):
             current_string += current_character_chr
 
             if current_character_chr == '\n':
-                print (current_string)
+                all_messages += [current_string]
                 current_string = ""
 
             current_character = ""
+    
     print (str(errors) + "/" + str(number))
     print (str(float(errors) * (100.0 / number)))
 
-creator(imagePath).save(newImagePath)
-investigator(newImagePath)
+    return most_common(all_messages)
+
+creator(imagePath, string_to_insert).save(newImagePath)
+print (investigator(newImagePath))
