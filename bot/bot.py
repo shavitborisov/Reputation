@@ -8,9 +8,13 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 from selenium.webdriver.common.by import By
+import os.path
+import glob
+import shutil
 
+DOWNLOAD_FOLDER_PATH = r'C:\Users\USER\Downloads\*'
 
-WAIT_FOR_PHONE_CONNECTION = 15
+WAIT_FOR_PHONE_CONNECTION = 10
 
 class stream:
     driver = 0
@@ -44,6 +48,32 @@ class stream:
            
         return new_num.text.strip()
 
+    def send_pic(self, pic_path):
+        pass
+
+    def read_pic_and_message(self, save_path):
+        message = self.stream_read()
+
+        img = self.driver.find_elements(By.CLASS_NAME, "_3IfUe")[-1]
+        img.click()
+
+        time.sleep(0.3)
+
+        down_button = self.driver.find_elements(By.CLASS_NAME, "_2cNrC")[3]
+        down_button.click()
+
+        time.sleep(0.3)
+
+        close_button = self.driver.find_elements(By.CLASS_NAME, "_2cNrC")[4]
+        close_button.click()
+
+        files = glob.glob(DOWNLOAD_FOLDER_PATH)
+        max_file = max(files, key=os.path.getctime)
+
+        shutil.copyfile(max_file, save_path)
+
+        return message 
+
 if __name__ == '__main__':
     s = stream()
-    s.stream_write((s.stream_read()))
+    print(s.read_pic_and_message("bla.jpg"))
