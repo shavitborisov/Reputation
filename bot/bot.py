@@ -6,13 +6,16 @@ About: Wraps a readable and writable stream
 import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
 import time
 from selenium.webdriver.common.by import By
 import os.path
 import glob
 import shutil
 
-DOWNLOAD_FOLDER_PATH = r'C:\Users\USER\Downloads\*'
+DOWNLOAD_FOLDER_PATH = r'C:\Users\USER\Downloads'
+BOT_PATH = r"C:\Users\USER\Desktop\tmp_hack\Reputation\bot"
+
 
 WAIT_FOR_PHONE_CONNECTION = 10
 
@@ -49,7 +52,25 @@ class stream:
         return new_num.text.strip()
 
     def send_pic(self, pic_path):
-        pass
+        photo_name = os.path.join(BOT_PATH, pic_path)
+
+        add_something_button = self.driver.find_elements(By.CLASS_NAME, "_26lC3")[5]
+        add_something_button.click()
+
+        time.sleep(0.26)
+
+        pic_and_vid_button =  self.driver.find_elements(By.CLASS_NAME, "_2t8DP")[0]
+        #pic_and_vid_button.click()
+
+        time.sleep(0.32)
+
+        input_photo = pic_and_vid_button.find_elements(By.TAG_NAME, "input")[0]
+        input_photo.send_keys(photo_name)
+
+        time.sleep(1)
+
+        send_pic = self.driver.find_elements(By.CLASS_NAME, "_1w1m1")[0]
+        send_pic.click()
 
     def read_pic_and_message(self, save_path):
         message = self.stream_read()
@@ -67,7 +88,7 @@ class stream:
         close_button = self.driver.find_elements(By.CLASS_NAME, "_2cNrC")[4]
         close_button.click()
 
-        files = glob.glob(DOWNLOAD_FOLDER_PATH)
+        files = glob.glob(DOWNLOAD_FOLDER_PATH + r"\*")
         max_file = max(files, key=os.path.getctime)
 
         shutil.copyfile(max_file, save_path)
@@ -76,4 +97,5 @@ class stream:
 
 if __name__ == '__main__':
     s = stream()
-    print(s.read_pic_and_message("bla.jpg"))
+    s.send_pic("bla.jpg")
+   # print(s.read_pic_and_message("bla.jpg"))
