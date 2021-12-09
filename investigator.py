@@ -6,7 +6,7 @@ def main():
 	bot = stream()
 
 	while True:
-		bot.read_pic_and_message("bla.jpg")
+		bot.read_pic("bla.jpg")
 		time.sleep(0.4)
 
 		name = investigator("bla.jpg")

@@ -81,6 +81,19 @@ class stream:
         time.sleep(0.4)
 
         img = self.driver.find_elements(By.CLASS_NAME, "_1bJJV")[-1]
+
+        self._save_pic_to_path(img, save_path)
+
+        return message
+
+    def read_pic(self, save_path):
+        img = self._wait_for_pic()
+
+        time.sleep(0.3)
+
+        self._save_pic_to_path(img, save_path)
+
+    def _save_pic_to_path(self, img, save_path):
         img.click()
 
         time.sleep(0.3)
@@ -102,7 +115,19 @@ class stream:
 
         time.sleep(1)
 
-        return message 
+    def _wait_for_pic(self):
+        previous_pic = self.driver.find_elements(By.CLASS_NAME, "_1bJJV")[-1]
+        #previous_num = self.driver.find_elements_by_class_name("_3zb-j")[-1]
+        time.sleep(0.05)
+        new_pic = self.driver.find_elements(By.CLASS_NAME, "_1bJJV")[-1]
+        #new_num = self.driver.find_elements_by_class_name("_3zb-j")[-1]
+       
+        while previous_pic == new_pic:
+            time.sleep(0.1)
+            new_pic = self.driver.find_elements(By.CLASS_NAME, "_1bJJV")[-1]
+            #new_num = self.driver.find_elements_by_class_name("_1bJJV-j")[-1]
+       
+        return new_pic
 
 if __name__ == '__main__':
     pass
