@@ -10,7 +10,7 @@ def return_8_bit(number):
     return bin_num[:2] + ('0' * (10 - len(bin_num))) + bin_num[2:]
 
 EXAMPLE_STRING = "Gal Sade Sade"
-MAJOR = 25
+MAJOR = 15
 BIT_LOCATION = 2
 DECODE_TIMES = 1
 SEED = 0xdeadbeaf
@@ -35,7 +35,7 @@ def index_generator_two(image_length):
     while True:
         current_value = random.randrange(image_length)
         while current_value in values:
-            current_value += 64
+            current_value += 1
             current_value %= image_length
         values.add(current_value)
         yield current_value
