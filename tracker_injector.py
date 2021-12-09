@@ -9,9 +9,9 @@ def main():
 		message = bot.read_pic_and_message("bla.jpg")
 		time.sleep(0.4)
 
-		creator("bla.jpg", message).save("bla1.jpg")
+		creator("bla.jpg", message).save("bla1.bmp")
 
-		bot.send_pic("bla1.jpg")
+		bot.send_pic("bla1.bmp")
 		bot.stream_write("The name was successfully hidden")
 		bot.stream_write("Always at your service, Mr. TrackerInjector")
 
