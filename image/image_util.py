@@ -1,7 +1,6 @@
 from PIL import Image
 import collections
 import random
-from reedsolo import RSCodec
 
 imagePath = 'example.jpg'
 newImagePath = 'result.jpg'
@@ -60,9 +59,6 @@ def write_on_msb(number, bit):
 def creator (source, string_to_encode):
     im = Image.open(source)
     newimdata = [color for color in im.getdata()]
-
-    #rsc = RSCodec(100)  # 10 ecc symbols
-    #rs_string = rsc.
 
     message_generator = get_string_current_bit(string_to_encode)
     index_gen = index_generator(*im.size)
