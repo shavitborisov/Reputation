@@ -9,8 +9,8 @@ def return_8_bit(number):
     bin_num = bin(number)
     return bin_num[:2] + ('0' * (10 - len(bin_num))) + bin_num[2:]
 
-EXAMPLE_STRING = "Avia's Picture"
-MAJOR = 8
+EXAMPLE_STRING = "Gal Sade Sade"
+MAJOR = 15
 BIT_LOCATION = 2
 DECODE_TIMES = 1
 SEED = 0xdeadbeaf
