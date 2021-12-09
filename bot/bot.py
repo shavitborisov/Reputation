@@ -52,7 +52,7 @@ class stream:
            
         return new_num.text.strip()
 
-    def send_pic(self, pic_path):
+    def send_pic(self, pic_path, message):
         photo_name = os.path.join(BOT_PATH, pic_path)
 
         add_something_button = self.driver.find_elements(By.CLASS_NAME, "_26lC3")[5]
@@ -69,6 +69,9 @@ class stream:
         input_photo.send_keys(photo_name)
 
         time.sleep(1)
+
+        input_name = self.driver.find_elements(By.CLASS_NAME, "_13NKt")[0]
+        input_name.send_keys(message)
 
         send_pic = self.driver.find_elements(By.CLASS_NAME, "_1w1m1")[0]
         send_pic.click()
