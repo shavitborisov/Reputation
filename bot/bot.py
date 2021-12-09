@@ -78,7 +78,7 @@ class stream:
     def read_pic_and_message(self, save_path):
         message = self.stream_read()
 
-        time.sleep(0.4)
+        time.sleep(0.8)
 
         img = self.driver.find_elements(By.CLASS_NAME, "_1bJJV")[-1]
 
@@ -106,7 +106,7 @@ class stream:
         close_button = self.driver.find_elements(By.CLASS_NAME, "_2cNrC")[4]
         close_button.click()
 
-        time.sleep(0.3)
+        time.sleep(1)
 
         files = glob.glob(DOWNLOAD_FOLDER_PATH + r"\*")
         max_file = max(files, key=os.path.getctime)
