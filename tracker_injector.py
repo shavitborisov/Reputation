@@ -18,7 +18,7 @@ def main():
 				continue
 
 			convert_pic_and_send(bot, msg)
-			time.sleep(1)
+			time.sleep(0.5)
 
 		time.sleep(2)
 		

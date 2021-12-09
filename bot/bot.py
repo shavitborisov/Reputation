@@ -81,7 +81,7 @@ class stream:
     def read_pic_and_message(self, save_path):
         message = self.stream_read()
 
-        time.sleep(0.8)
+        time.sleep(0.7)
 
         img = self.driver.find_elements(By.CLASS_NAME, "_1bJJV")[-1]
 
