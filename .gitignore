@@ -1,1 +1,5 @@
-.idea/*
+main2.py
+.idea*
+*__pycache__*
+*.jpg
+*.bmp
